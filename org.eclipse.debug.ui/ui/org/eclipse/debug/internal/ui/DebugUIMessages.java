@@ -279,6 +279,7 @@ public class DebugUIMessages extends NLS {
 	public static String GroupLaunchConfigurationTabGroup_6;
 	public static String GroupLaunchConfigurationTabGroup_7;
 	public static String GroupLaunchConfigurationTabGroup_lblAdopt;
+	public static String TerminateConfiguration_No_Active_Processes;
 
 	//
 	// Blocks

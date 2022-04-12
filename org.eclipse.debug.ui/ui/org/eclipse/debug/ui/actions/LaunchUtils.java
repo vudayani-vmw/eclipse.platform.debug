@@ -134,17 +134,6 @@ public class LaunchUtils {
 		}
 	}
 
-//	public static void terminateAndRelaunch(final ILaunchConfiguration launchConf, final String mode) throws DebugException {
-//		List<ILaunch> launches = getLaunches(launchConf);
-//		terminate(launches);
-//		whenTerminated(launches, new UiRunnable() {
-//			@Override
-//			protected void uiRun() {
-//				//must run in UI thread since it may popup dialogs in some cases.
-//				DebugUITools.launch(launchConf, mode);
-//			}
-//		});
-//	}
 
 	/**
 	 * Terminate all launches in a list.

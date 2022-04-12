@@ -64,7 +64,7 @@ public abstract class LaunchList {
 						handleDebugEvent(debugEvent);
 					}
 				}
-			};
+			}
 		});
 
 		//What if processes got started before we attached the listener?

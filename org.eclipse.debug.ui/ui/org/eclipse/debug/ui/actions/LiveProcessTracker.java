@@ -50,14 +50,6 @@ public class LiveProcessTracker extends LaunchList {
 		super();
 	}
 
-//	private void dispose() {
-//		if (debugListener!=null) {
-//			DebugPlugin.getDefault().removeDebugEventListener(debugListener);
-//			debugListener = null;
-//		}
-//	}
-
-
 	@Override
 	protected void processTerminated(IProcess process) {
 		boolean changed;

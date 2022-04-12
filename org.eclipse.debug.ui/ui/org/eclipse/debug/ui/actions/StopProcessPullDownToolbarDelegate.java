@@ -11,6 +11,7 @@
 package org.eclipse.debug.ui.actions;
 
 import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.internal.ui.DebugUIMessages;
 
 /**
  * @author Kris De Volder
@@ -25,7 +26,7 @@ public class StopProcessPullDownToolbarDelegate extends AbstractLaunchToolbarPul
 
 	@Override
 	protected String getOperationName() {
-		return "Stop"; //$NON-NLS-1$
+		return DebugUIMessages.TerminateConfiguration_Stop;
 	}
 
 	@Override

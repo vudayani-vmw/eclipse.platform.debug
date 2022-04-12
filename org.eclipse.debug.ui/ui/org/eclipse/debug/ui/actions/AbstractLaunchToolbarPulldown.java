@@ -28,7 +28,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-//import org.springsource.ide.eclipse.commons.internal.core.CorePlugin;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
@@ -90,8 +89,9 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 			};
 			job.schedule();
 		} else {
-			MessageDialog.openError(window.getShell(), "No Processes Found", //$NON-NLS-1$
-					"Couldn't " + getOperationName() + ": no active processes" //$NON-NLS-1$ //$NON-NLS-2$
+			MessageDialog.openError(window.getShell(), DebugUIMessages.TerminateConfiguration_No_Processes_Found,
+					DebugUIMessages.TerminateConfiguration_Rendering_1 + getOperationName()
+							+ DebugUIMessages.TerminateConfiguration_No_Active_Processes
 			);
 		}
 	}
@@ -193,6 +193,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 		}
 	}
 
+
 	/**
 	 * Dynamically creates menus to relaunch currently active launches.
 	 */
@@ -217,12 +218,42 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 				try {
 					performOperation(launch);
 				} catch (DebugException e) {
-//					CorePlugin.log(e);
+					DebugPlugin.log(e);
 
 				}
 			}
 
 		}
+
+		/**
+		 * An action that is used to terminate all running processes.
+		 */
+		private class TerminateAllAction extends Action {
+
+			public TerminateAllAction(String label) {
+				super(label);
+			}
+
+			@Override
+			public boolean isEnabled() {
+				return true;
+			}
+
+			@Override
+			public void run() {
+				try {
+					for (Item launch : launches.getLaunches()) {
+						performOperation(launch);
+					}
+				} catch (DebugException e) {
+					DebugPlugin.log(e);
+				}
+			}
+		}
+
+		private final IContributionItem TERMINATE_ALL = new ActionContributionItem(
+				new TerminateAllAction(DebugUIMessages.TerminateConfiguration_Terminate_All));
+
 
 		@Override
 		protected IContributionItem[] getContributionItems() {
@@ -231,6 +262,10 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 
 		private IContributionItem[] createContributionItems() {
 			ArrayList<IContributionItem> items = new ArrayList<>();
+
+			if (!launches.getLaunches().isEmpty()) {
+				items.add(TERMINATE_ALL);
+			}
 			for (Item launch : launches.getLaunches()) {
 				items.add(new ActionContributionItem(new RelaunchAction(launch)));
 			}

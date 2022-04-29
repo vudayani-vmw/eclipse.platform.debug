@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
@@ -26,17 +25,13 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 
 /**
+ * @author Kris De Volder
+ * @author V Udayani
+ * @author Karthik Sankaranarayanan
  * @since 3.16
  */
 public class LaunchUtils {
 
-//	private static final boolean DEBUG = ("" + Platform.getLocation()).contains("kdvolder"); //$NON-NLS-1$ //$NON-NLS-2$
-//
-//	private static void debug(String string) {
-//		if (DEBUG) {
-//			System.out.println(string);
-//		}
-//	}
 
 	/**
 	 * Execute some code as soon as a given list of launches are all terminated. If the launches are
@@ -50,14 +45,14 @@ public class LaunchUtils {
 	/**
 	 * @return A future that resolves when a given launch is terminated
 	 */
-	public static Future<Void> whenTerminated(ILaunch l) {
+	public static CompletableFuture<Void> whenTerminated(ILaunch l) {
 		return whenTerminated(Arrays.asList(l));
 	}
 
 	/**
 	 * @return A future that resolves when a list of launches are all terminated
 	 */
-	public static Future<Void> whenTerminated(List<ILaunch> launches) {
+	public static CompletableFuture<Void> whenTerminated(List<ILaunch> launches) {
 		final CompletableFuture<Void> done = new CompletableFuture<>();
 		whenTerminated(launches, new Runnable() {
 			@Override

@@ -23,6 +23,8 @@ import org.eclipse.debug.core.model.IProcess;
  * eclipse debugger. processes are forgotten as soon as they terminate.
  *
  * @author Kris De Volder
+ * @author V Udayani
+ * @author Karthik Sankaranarayanan
  * @since 3.16
  */
 public class LiveProcessTracker extends LaunchList {

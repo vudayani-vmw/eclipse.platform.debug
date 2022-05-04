@@ -15,6 +15,7 @@ import org.eclipse.debug.internal.ui.DebugUIMessages;
 
 /**
  * @author Kris De Volder
+ * @author V Udayani
  * @since 3.16
  */
 public class StopProcessPullDownToolbarDelegate extends AbstractLaunchToolbarPulldown {
@@ -26,7 +27,7 @@ public class StopProcessPullDownToolbarDelegate extends AbstractLaunchToolbarPul
 
 	@Override
 	protected String getOperationName() {
-		return DebugUIMessages.TerminateConfiguration_Stop;
+		return DebugUIMessages.AbstractLaunchToolbarPulldown_Stop;
 	}
 
 	@Override

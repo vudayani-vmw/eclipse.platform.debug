@@ -25,6 +25,8 @@ import org.eclipse.debug.core.model.IProcess;
 
 /**
  * @author Kris De Volder
+ * @author V Udayani
+ * @author Karthik Sankaranarayanan
  * @since 3.16
  */
 public abstract class LaunchList {

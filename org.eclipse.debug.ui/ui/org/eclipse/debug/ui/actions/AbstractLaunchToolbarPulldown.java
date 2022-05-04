@@ -42,6 +42,8 @@ import org.eclipse.ui.actions.CompoundContributionItem;
  * configs.
  *
  * @author Kris De Volder
+ * @author V Udayani
+ * @author Karthik Sankaranarayanan
  * @since 3.16
  */
 public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowPulldownDelegate, ILaunchConfigurationListener {
@@ -66,7 +68,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 	}
 
 	/**
-	 * FActory method to create or obtain an instance that keeps track of the launches to be
+	 * Factory method to create or obtain an instance that keeps track of the launches to be
 	 * shown in the pulldown menu.
 	 */
 	protected abstract LaunchList createList();
@@ -89,9 +91,9 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 			};
 			job.schedule();
 		} else {
-			MessageDialog.openError(window.getShell(), DebugUIMessages.TerminateConfiguration_No_Processes_Found,
-					DebugUIMessages.TerminateConfiguration_Rendering_1 + getOperationName()
-							+ DebugUIMessages.TerminateConfiguration_No_Active_Processes
+			MessageDialog.openError(window.getShell(), DebugUIMessages.AbstractLaunchToolbarPulldown_No_Processes_Found,
+					DebugUIMessages.AbstractLaunchToolbarPulldown_Rendering_1 + getOperationName()
+							+ DebugUIMessages.AbstractLaunchToolbarPulldown_No_Active_Processes
 			);
 		}
 	}
@@ -177,7 +179,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 	}
 
 	private static final IContributionItem EMPTY_ITEM = new ActionContributionItem(
-			new EmptyAction(DebugUIMessages.TerminateConfiguration_No_Active_Processes));
+			new EmptyAction(DebugUIMessages.AbstractLaunchToolbarPulldown_No_Active_Processes));
 
 	/**
 	 * An action that is disabled and does nothing. Its only purpose is to
@@ -195,7 +197,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 
 
 	/**
-	 * Dynamically creates menus to relaunch currently active launches.
+	 * Dynamically creates menus to terminate currently active launches.
 	 */
 	private class SubMenuProvider extends CompoundContributionItem {
 
@@ -205,10 +207,11 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 			this.launches = launches;
 		}
 
-		private class RelaunchAction extends Action {
+
+		private class PerformAction extends Action {
 			private final Item launch;
 
-			public RelaunchAction(LaunchList.Item launch) {
+			public PerformAction(LaunchList.Item launch) {
 				this.launch = launch;
 				this.setText(launch.getName());
 			}
@@ -228,9 +231,9 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 		/**
 		 * An action that is used to terminate all running processes.
 		 */
-		private class TerminateAllAction extends Action {
+		private class PerformAllAction extends Action {
 
-			public TerminateAllAction(String label) {
+			public PerformAllAction(String label) {
 				super(label);
 			}
 
@@ -252,8 +255,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 		}
 
 		private final IContributionItem TERMINATE_ALL = new ActionContributionItem(
-				new TerminateAllAction(DebugUIMessages.TerminateConfiguration_Terminate_All));
-
+				new PerformAllAction(DebugUIMessages.AbstractLaunchToolbarPulldown_Terminate_All));
 
 		@Override
 		protected IContributionItem[] getContributionItems() {
@@ -267,7 +269,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 				items.add(TERMINATE_ALL);
 			}
 			for (Item launch : launches.getLaunches()) {
-				items.add(new ActionContributionItem(new RelaunchAction(launch)));
+				items.add(new ActionContributionItem(new PerformAction(launch)));
 			}
 			if (items.isEmpty()) {
 				items.add(EMPTY_ITEM);
@@ -275,7 +277,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 			// Return item in reverse order (so older item at the bottom of the menu).
 			IContributionItem[] array = new IContributionItem[items.size()];
 			for (int i = 0; i < array.length; i++) {
-				array[array.length-i-1] = items.get(i);
+				array[array.length - i - 1] = items.get(i);
 			}
 			return array;
 		}
@@ -284,8 +286,8 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 
 	@Override
 	public void launchConfigurationAdded(ILaunchConfiguration configuration) {
-		uiUpdate(); //force update tooltip on button in case label changed on acount of the
-        // config it launches got renamed or deleted
+		uiUpdate(); // force update tooltip on button in case label changed on account of the
+		// config it launches got added
 	}
 
 	@Override
@@ -294,7 +296,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 
 	@Override
 	public void launchConfigurationRemoved(ILaunchConfiguration configuration) {
-		uiUpdate(); //force update tooltip on button in case labe changed on acount of the
+		uiUpdate(); // force update tooltip on button in case label changed on account of the
 		            // config it launches got renamed or deleted
 	}
 

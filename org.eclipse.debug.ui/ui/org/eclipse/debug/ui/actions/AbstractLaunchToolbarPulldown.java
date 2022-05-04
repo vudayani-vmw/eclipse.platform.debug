@@ -207,10 +207,10 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 			this.launches = launches;
 		}
 
-		private class TerminateAction extends Action {
+		private class PerformAction extends Action {
 			private final Item launch;
 
-			public TerminateAction(LaunchList.Item launch) {
+			public PerformAction(LaunchList.Item launch) {
 				this.launch = launch;
 				this.setText(launch.getName());
 			}
@@ -230,9 +230,9 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 		/**
 		 * An action that is used to terminate all running processes.
 		 */
-		private class TerminateAllAction extends Action {
+		private class PerformAllAction extends Action {
 
-			public TerminateAllAction(String label) {
+			public PerformAllAction(String label) {
 				super(label);
 			}
 
@@ -254,7 +254,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 		}
 
 		private final IContributionItem TERMINATE_ALL = new ActionContributionItem(
-				new TerminateAllAction(DebugUIMessages.AbstractLaunchToolbarPulldown_Terminate_All));
+				new PerformAllAction(DebugUIMessages.AbstractLaunchToolbarPulldown_Terminate_All));
 
 		@Override
 		protected IContributionItem[] getContributionItems() {
@@ -268,7 +268,7 @@ public abstract class AbstractLaunchToolbarPulldown implements IWorkbenchWindowP
 				items.add(TERMINATE_ALL);
 			}
 			for (Item launch : launches.getLaunches()) {
-				items.add(new ActionContributionItem(new TerminateAction(launch)));
+				items.add(new ActionContributionItem(new PerformAction(launch)));
 			}
 			if (items.isEmpty()) {
 				items.add(EMPTY_ITEM);
